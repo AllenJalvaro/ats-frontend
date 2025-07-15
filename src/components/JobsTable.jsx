@@ -22,6 +22,9 @@ const JobsTable = () => {
     const responsibilitiesRef = useRef(null);
     const requirementsRef = useRef(null);
     const preferredQualificationsRef = useRef(null);
+    const responsibilityHeaderRef = useRef(null);
+    const requirementHeaderRef = useRef(null);
+    const qualificationHeaderRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -37,6 +40,7 @@ const JobsTable = () => {
 
     const handleJobRowClick = (row) => {
         setJobData(row)
+        // console.log("Selected Job Data:", row);
         setIsAddJobModalOpen(true);
     };
 
@@ -46,6 +50,9 @@ const JobsTable = () => {
             responsibilitiesRef,
             requirementsRef,
             preferredQualificationsRef,
+            responsibilityHeaderRef,
+            requirementHeaderRef,
+            qualificationHeaderRef,
         ];
 
         refs.forEach((ref) => {
@@ -59,12 +66,16 @@ const JobsTable = () => {
         jobData.responsibility,
         jobData.requirement,
         jobData.preferredQualification,
+        jobData.responsibilityHeader,
+        jobData.requirementHeader,
+        jobData.qualificationHeader,
     ]);
 
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
         try {
+            // console.log("Submitting Job Data for UPDATE:", jobData);
             await updateJob(jobData);
             if (activeTab === "open") {
                 getOpenJobs(setJobsData);
@@ -255,9 +266,25 @@ const JobsTable = () => {
                                     </div>
                                 </div>
 
+   <div className="mt-5 mb-3"> <hr /></div>
                                 {/* Responsibilities */}
                                 <div>
-                                    <label className="block">Responsibilities</label>
+                                   
+                                    <label className="block font-bold my-3">Section 1</label>
+                                    <label className="block">Title <span className="text-gray-400 italic"> (Defaults to "Responsibilities" if left blank.)</span></label>
+                                    <input
+                                        ref={responsibilityHeaderRef}
+                                        name="responsibilityHeader"
+                                        value={jobData.responsibilityHeader}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }}
+                                        className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden mb-3"
+                                        required
+                                    />
+                                    <label className="block">Content</label>
                                     <textarea
                                         ref={responsibilitiesRef}
                                         name="responsibility"
@@ -270,12 +297,28 @@ const JobsTable = () => {
                                         className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden"
                                         required
                                     />
+
                                 </div>
 
-                                {/* Requirements */}
-                                <div>
-                                    <label className="block">Requirements</label>
-                                    <textarea
+                                 {/* Requirements */}
+                                  <div>
+                                   
+                                    <label className="block font-bold my-3">Section 2</label>
+                                    <label className="block">Title <span className="text-gray-400 italic"> (Defaults to "Requirements" if left blank.)</span></label>
+                                    <input
+                                        ref={requirementHeaderRef}
+                                        name="requirementHeader"
+                                        value={jobData.requirementHeader}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }}
+                                        className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden mb-3"
+                                        required
+                                    />
+                                    <label className="block">Content</label>
+                                     <textarea
                                         ref={requirementsRef}
                                         name="requirement"
                                         value={jobData.requirement}
@@ -287,11 +330,29 @@ const JobsTable = () => {
                                         className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden"
                                         required
                                     />
+
                                 </div>
 
+                              
+
                                 {/* Preferred Qualifications */}
-                                <div>
-                                    <label className="block">Preferred Qualifications</label>
+                                     <div>
+                                   
+                                    <label className="block font-bold my-3">Section 3</label>
+                                    <label className="block">Title <span className="text-gray-400 italic"> (Defaults to "Preferred Qualifications" if left blank.)</span></label>
+                                    <input
+                                        ref={qualificationHeaderRef}
+                                        name="qualificationHeader"
+                                        value={jobData.qualificationHeader}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }}
+                                        className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden mb-3"
+                                        required
+                                    />
+                                    <label className="block">Content</label>
                                     <textarea
                                         ref={preferredQualificationsRef}
                                         name="preferredQualification"
@@ -303,7 +364,9 @@ const JobsTable = () => {
                                         }}
                                         className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden"
                                     />
+
                                 </div>
+                                
                                 <div className="grid grid-cols-2 gap-4">
 
                                     {/* Status */}

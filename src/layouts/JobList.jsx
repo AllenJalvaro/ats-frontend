@@ -19,6 +19,9 @@ const JobList = () => {
     const responsibilitiesRef = useRef(null);
     const requirementsRef = useRef(null);
     const preferredQualificationsRef = useRef(null);
+    const responsibilityHeaderRef = useRef(null);
+    const requirementHeaderRef = useRef(null);
+    const qualificationHeaderRef = useRef(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const [jobData, setJobData] = useState({
@@ -35,6 +38,9 @@ const JobList = () => {
         isOpen: "1",
         isShown: "1",
         userId: user.user_id,
+        responsibilityHeader: "Responsibilities",
+        requirementHeader: "Requirements",
+        qualificationHeader: "Preferred Qualifications",
     });
     const { setupData, setSetupData } = setupStore();
     const { jobsData, setJobsData, isGearModalOpen, setIsGearModalOpen } = jobStore();
@@ -54,6 +60,9 @@ const JobList = () => {
             responsibilitiesRef,
             requirementsRef,
             preferredQualificationsRef,
+            responsibilityHeaderRef,
+            requirementHeaderRef,
+            qualificationHeaderRef,
         ];
 
         refs.forEach((ref) => {
@@ -67,6 +76,9 @@ const JobList = () => {
         jobData.responsibilities,
         jobData.requirements,
         jobData.preferredQualifications,
+        jobData.responsibilityHeader,
+        jobData.requirementHeader,
+        jobData.qualificationHeader,
     ]);
 
 
@@ -86,6 +98,7 @@ const JobList = () => {
     const handleSubmit = async (e) => {
         setIsLoading(true);
         e.preventDefault();
+        // console.log("Submitting Job Data:", jobData);
         await addJob(jobData);
         await fetchJobs(setJobsData);
         await fetchCloseJobsCount(setCloseJobsCount)
@@ -113,6 +126,9 @@ const JobList = () => {
             isOpen: "1",
             isShown: "1",
             userId: user.user_id,
+            responsibilityHeader: "Responsibilities",
+            requirementHeader: "Requirements",
+            qualificationHeader: "Preferred Qualifications",
         });
 
         // Clear the height of each ref
@@ -121,6 +137,9 @@ const JobList = () => {
             responsibilitiesRef,
             requirementsRef,
             preferredQualificationsRef,
+            responsibilityHeaderRef,
+            requirementHeaderRef,
+            qualificationHeaderRef,
         ];
         refs.forEach((ref) => {
             if (ref.current) {
@@ -288,9 +307,25 @@ const JobList = () => {
                                     </div>
                                 </div>
 
+                                    <div className="mt-5 mb-3"> <hr /></div>
                                 {/* Responsibilities */}
                                 <div>
-                                    <label className="block">Responsibilities</label>
+                                   
+                                    <label className="block font-bold my-3">Section 1</label>
+                                    <label className="block">Title <span className="text-gray-400 italic"> (Defaults to "Responsibilities" if left blank.)</span></label>
+                                    <input
+                                        ref={responsibilityHeaderRef}
+                                        name="responsibilityHeader"
+                                        value={jobData.responsibilityHeader}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }}
+                                        className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden mb-3"
+                                        required
+                                    />
+                                    <label className="block">Content</label>
                                     <textarea
                                         ref={responsibilitiesRef}
                                         name="responsibilities"
@@ -307,9 +342,24 @@ const JobList = () => {
                                 </div>
 
                                 {/* Requirements */}
-                                <div>
-                                    <label className="block">Requirements</label>
-                                    <textarea
+                                  <div>
+                                   
+                                    <label className="block font-bold my-3">Section 2</label>
+                                    <label className="block">Title <span className="text-gray-400 italic"> (Defaults to "Requirements" if left blank.)</span></label>
+                                    <input
+                                        ref={requirementHeaderRef}
+                                        name="requirementHeader"
+                                        value={jobData.requirementHeader}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }}
+                                        className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden mb-3"
+                                        required
+                                    />
+                                    <label className="block">Content</label>
+                                     <textarea
                                         ref={requirementsRef}
                                         name="requirements"
                                         value={jobData.requirements}
@@ -325,8 +375,24 @@ const JobList = () => {
                                 </div>
 
                                 {/* Preferred Qualifications */}
-                                <div>
-                                    <label className="block">Preferred Qualifications</label>
+
+                                  <div>
+                                   
+                                    <label className="block font-bold my-3">Section 3</label>
+                                    <label className="block">Title <span className="text-gray-400 italic"> (Defaults to "Preferred Qualifications" if left blank.)</span></label>
+                                    <input
+                                        ref={qualificationHeaderRef}
+                                        name="qualificationHeader"
+                                        value={jobData.qualificationHeader}
+                                        onChange={(e) => {
+                                            handleChange(e);
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                        }}
+                                        className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden mb-3"
+                                        required
+                                    />
+                                    <label className="block">Content</label>
                                     <textarea
                                         ref={preferredQualificationsRef}
                                         name="preferredQualifications"
@@ -338,6 +404,7 @@ const JobList = () => {
                                         }}
                                         className="w-full p-2 border border-gray-light rounded-md resize-none overflow-hidden"
                                     />
+
                                 </div>
 
                                 {/* Status */}
